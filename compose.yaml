@@ -1,0 +1,11 @@
+services:
+  discord-ai-bot:
+    container_name: discord-ai-bot
+    image: zoeyvid/discord-ai-bot
+    restart: always
+    network_mode: bridge
+    environment:
+      - "TZ=Europe/Berlin"
+      - "OAI_KEY="
+      - "A_KEY="
+      - "BOT_KEY="

@@ -20,6 +20,5 @@ RUN echo 'APT::Install-Recommends "0";' | tee -a /etc/apt/apt.conf.d/01norecomme
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     playwright install --with-deps chromium
-USER nobody
 COPY app.py /usr/local/bin/app.py
 ENTRYPOINT ["tini", "--", "app.py"]

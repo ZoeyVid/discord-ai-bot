@@ -23,7 +23,7 @@ async def on_ready():
 
 @bot.command(description="Hi by ZoeyVid! (o1-mini) 3$/12$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
 @default_permissions(administrator=True)
-async def 01mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
+async def o1mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
   await ctx.defer()
   print(prompt)
   message = oaiclient.chat.completions.create(
@@ -42,7 +42,7 @@ async def 01mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
 
 @bot.command(description="Hi by ZoeyVid! (o1-preview) 15$/60$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
 @default_permissions(administrator=True)
-async def 01preview(ctx, prompt: discord.Option(str, description="Der Prompt")):
+async def o1preview(ctx, prompt: discord.Option(str, description="Der Prompt")):
   await ctx.defer()
   print(prompt)
   message = oaiclient.chat.completions.create(

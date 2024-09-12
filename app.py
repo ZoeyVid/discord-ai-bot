@@ -21,6 +21,44 @@ async def on_ready():
     print("Bot is running!")
 
 
+@bot.command(description="Hi by ZoeyVid! (o1-mini) 3$/12$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+@default_permissions(administrator=True)
+async def 01mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
+  await ctx.defer()
+  print(prompt)
+  message = oaiclient.chat.completions.create(
+    model="o1-mini",
+    messages=[
+      {"role": "system", "content": "Du befolgst die dir gegebenen Anweisungen."},
+      {"role": "user", "content": prompt}
+    ]
+  )
+  for i in range(ceil(len(message.choices[0].message.content) / 4096)):
+    embed = discord.Embed(title="Hi by ZoeyVid! (o1-mini) 3$/12$")
+    embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
+    await ctx.respond(embed=embed)
+  print("Hi by ZoeyVid! ^(o1-mini) 3$/12$^")
+
+
+@bot.command(description="Hi by ZoeyVid! (o1-preview) 15$/60$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+@default_permissions(administrator=True)
+async def 01preview(ctx, prompt: discord.Option(str, description="Der Prompt")):
+  await ctx.defer()
+  print(prompt)
+  message = oaiclient.chat.completions.create(
+    model="o1-preview",
+    messages=[
+      {"role": "system", "content": "Du befolgst die dir gegebenen Anweisungen."},
+      {"role": "user", "content": prompt}
+    ]
+  )
+  for i in range(ceil(len(message.choices[0].message.content) / 4096)):
+    embed = discord.Embed(title="Hi by ZoeyVid! (o1-preview) 15$/60$")
+    embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
+    await ctx.respond(embed=embed)
+  print("Hi by ZoeyVid! ^(o1-preview) 15$/60$^")
+
+
 @bot.command(description="Hi by ZoeyVid! (gpt-4o-mini) 0,15$/0,6$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
 async def mini(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL für file_search"), image: discord.Option(discord.Attachment, required=False, description="Bild"), filesearch: discord.Option(discord.Attachment, required=False, description="Datei für file_search"), codeinterpreter: discord.Option(discord.Attachment, required=False, description="Datei für code_interpreter")):
   await ctx.defer()
@@ -113,7 +151,7 @@ async def mini(ctx, prompt: discord.Option(str, description="Der Prompt"), url: 
       ]
     )
     for i in range(ceil(len(message.choices[0].message.content) / 4096)):
-      embed = discord.Embed(title='Hi by ZoeyVid! (gpt-4o-mini) 0,15$/0,6$')
+      embed = discord.Embed(title="Hi by ZoeyVid! (gpt-4o-mini) 0,15$/0,6$")
       embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
   print("Hi by ZoeyVid! ^(gpt-4o-mini) 0,15$/0,6$^")
@@ -290,6 +328,7 @@ async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg
       await ctx.respond(embed=embed)
   print("Hi by ZoeyVid! ^(claude-3-haiku) 0,25$/1,25$^")
 
+    
 @bot.command(description="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
 @default_permissions(administrator=True)
 async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg: discord.Option(discord.Attachment, required=False, description="Bild"), png: discord.Option(discord.Attachment, required=False, description="Bild"), gif: discord.Option(discord.Attachment, required=False, description="Bild"), webp: discord.Option(discord.Attachment, required=False, description="Bild")):
@@ -361,5 +400,78 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
       embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
   print("Hi by ZoeyVid! ^(claude-3-5-sonnet) 3$/15$^")
+
+
+@bot.command(description="Hi by ZoeyVid! (claude-3-opus) 15$/75$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+@default_permissions(administrator=True)
+async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg: discord.Option(discord.Attachment, required=False, description="Bild"), png: discord.Option(discord.Attachment, required=False, description="Bild"), gif: discord.Option(discord.Attachment, required=False, description="Bild"), webp: discord.Option(discord.Attachment, required=False, description="Bild")):
+  await ctx.defer()
+  print(prompt)
+  if jpeg:
+    imagefile = await jpeg.read()
+    message = aclient.messages.create(
+      model="claude-3-opus-20240229",
+      max_tokens=4096,
+      system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
+      messages=[
+        {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/jpeg", "data": base64.b64encode(imagefile).decode("utf-8")}}]}]
+    )
+    for i in range(ceil(len(message.content[0].text) / 4096)):
+      embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
+      embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
+      await ctx.respond(embed=embed)
+  elif png:
+    imagefile = await png.read()
+    message = aclient.messages.create(
+      model="claude-3-opus-20240229",
+      max_tokens=4096,
+      system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
+      messages=[
+        {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/png", "data": base64.b64encode(imagefile).decode("utf-8")}}]}]
+    )
+    for i in range(ceil(len(message.content[0].text) / 4096)):
+      embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
+      embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
+      await ctx.respond(embed=embed)
+  elif gif:
+    imagefile = await gif.read()
+    message = aclient.messages.create(
+      model="claude-3-opus-20240229",
+      max_tokens=4096,
+      system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
+      messages=[
+        {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/gif", "data": base64.b64encode(imagefile).decode("utf-8")}}]}]
+    )
+    for i in range(ceil(len(message.content[0].text) / 4096)):
+      embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
+      embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
+      await ctx.respond(embed=embed)
+  elif webp:
+    imagefile = await webp.read()
+    message = aclient.messages.create(
+      model="claude-3-opus-20240229",
+      max_tokens=4096,
+      system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
+      messages=[
+        {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/webp", "data": base64.b64encode(imagefile).decode("utf-8")}}]}]
+    )
+    for i in range(ceil(len(message.content[0].text) / 4096)):
+      embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
+      embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
+      await ctx.respond(embed=embed)
+  else:
+    message = aclient.messages.create(
+      model="claude-3-opus-20240229",
+      max_tokens=4096,
+      system="Du befolgst die dir gegebenen Anweisungen.",
+      messages=[
+        {"role": "user", "content": prompt}
+      ]
+    )
+    for i in range(ceil(len(message.content[0].text) / 4096)):
+      embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
+      embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
+      await ctx.respond(embed=embed)
+  print("Hi by ZoeyVid! ^(claude-3-opus) 15$/75$^")
 
 bot.run(os.environ["BOT_KEY"])

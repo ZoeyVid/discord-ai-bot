@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-import base64
 import os
+import base64
 
 import discord
 import anthropic
+import google.generativeai as genai
 
 from math import ceil
 from openai import OpenAI
@@ -13,6 +14,7 @@ from playwright.async_api import async_playwright
 
 oaiclient = OpenAI(api_key=os.environ["OAI_KEY"])
 aclient = anthropic.Anthropic(api_key=os.environ["A_KEY"])
+genai.configure(api_key=os.environ["G_KEY"])
 
 bot = discord.Bot()
 @bot.listen(once=True)
@@ -26,6 +28,7 @@ async def on_ready():
 async def o1mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
   await ctx.defer()
   print(prompt)
+  print("Hi by ZoeyVid! ^(o1-mini) 3$/12$^")
   message = oaiclient.chat.completions.create(
     model="o1-mini",
     messages=[
@@ -37,7 +40,6 @@ async def o1mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
     embed = discord.Embed(title="Hi by ZoeyVid! (o1-mini) 3$/12$")
     embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
     await ctx.respond(embed=embed)
-  print("Hi by ZoeyVid! ^(o1-mini) 3$/12$^")
 
 
 @bot.command(description="Hi by ZoeyVid! (o1-preview) 15$/60$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
@@ -45,6 +47,7 @@ async def o1mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
 async def o1preview(ctx, prompt: discord.Option(str, description="Der Prompt")):
   await ctx.defer()
   print(prompt)
+  print("Hi by ZoeyVid! ^(o1-preview) 15$/60$^")
   message = oaiclient.chat.completions.create(
     model="o1-preview",
     messages=[
@@ -56,13 +59,13 @@ async def o1preview(ctx, prompt: discord.Option(str, description="Der Prompt")):
     embed = discord.Embed(title="Hi by ZoeyVid! (o1-preview) 15$/60$")
     embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
     await ctx.respond(embed=embed)
-  print("Hi by ZoeyVid! ^(o1-preview) 15$/60$^")
 
 
 @bot.command(description="Hi by ZoeyVid! (gpt-4o-mini) 0,15$/0,6$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
 async def mini(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL für file_search"), image: discord.Option(discord.Attachment, required=False, description="Bild"), filesearch: discord.Option(discord.Attachment, required=False, description="Datei für file_search"), codeinterpreter: discord.Option(discord.Attachment, required=False, description="Datei für code_interpreter")):
   await ctx.defer()
   print(prompt)
+  print("Hi by ZoeyVid! ^(gpt-4o-mini) 0,15$/0,6$^")
   if url:
     async with async_playwright() as playwright:
       chromium = playwright.chromium
@@ -154,7 +157,6 @@ async def mini(ctx, prompt: discord.Option(str, description="Der Prompt"), url: 
       embed = discord.Embed(title="Hi by ZoeyVid! (gpt-4o-mini) 0,15$/0,6$")
       embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
-  print("Hi by ZoeyVid! ^(gpt-4o-mini) 0,15$/0,6$^")
 
 
 @bot.command(description="Hi by ZoeyVid! (gpt-4o) 5$/15$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
@@ -162,6 +164,7 @@ async def mini(ctx, prompt: discord.Option(str, description="Der Prompt"), url: 
 async def gpt(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL für file_search"), image: discord.Option(discord.Attachment, required=False, description="Bild"), filesearch: discord.Option(discord.Attachment, required=False, description="Datei für file_search"), codeinterpreter: discord.Option(discord.Attachment, required=False, description="Datei für code_interpreter")):
   await ctx.defer()
   print(prompt)
+  print("Hi by ZoeyVid! ^(gpt-4o) 5$/15$^")
   if url:
     async with async_playwright() as playwright:
       chromium = playwright.chromium
@@ -253,7 +256,6 @@ async def gpt(ctx, prompt: discord.Option(str, description="Der Prompt"), url: d
       embed = discord.Embed(title="Hi by ZoeyVid! (gpt-4o) 5$/15$")
       embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
-  print("Hi by ZoeyVid! ^(gpt-4o) 5$/15$^")
 
 
 @bot.command(description="Hi by ZoeyVid! (claude-3-haiku) 0,25$/1,25$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
@@ -261,6 +263,7 @@ async def gpt(ctx, prompt: discord.Option(str, description="Der Prompt"), url: d
 async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg: discord.Option(discord.Attachment, required=False, description="Bild"), png: discord.Option(discord.Attachment, required=False, description="Bild"), gif: discord.Option(discord.Attachment, required=False, description="Bild"), webp: discord.Option(discord.Attachment, required=False, description="Bild")):
   await ctx.defer()
   print(prompt)
+  print("Hi by ZoeyVid! ^(claude-3-haiku) 0,25$/1,25$^")
   if jpeg:
     imagefile = await jpeg.read()
     message = aclient.messages.create(
@@ -326,7 +329,6 @@ async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg
       embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-haiku) 0,25$/1,25$")
       embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
-  print("Hi by ZoeyVid! ^(claude-3-haiku) 0,25$/1,25$^")
 
     
 @bot.command(description="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
@@ -334,6 +336,7 @@ async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg
 async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg: discord.Option(discord.Attachment, required=False, description="Bild"), png: discord.Option(discord.Attachment, required=False, description="Bild"), gif: discord.Option(discord.Attachment, required=False, description="Bild"), webp: discord.Option(discord.Attachment, required=False, description="Bild")):
   await ctx.defer()
   print(prompt)
+  print("Hi by ZoeyVid! ^(claude-3-5-sonnet) 3$/15$^")
   if jpeg:
     imagefile = await jpeg.read()
     message = aclient.messages.create(
@@ -399,7 +402,6 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
       embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$")
       embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
-  print("Hi by ZoeyVid! ^(claude-3-5-sonnet) 3$/15$^")
 
 
 @bot.command(description="Hi by ZoeyVid! (claude-3-opus) 15$/75$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
@@ -407,6 +409,7 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
 async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg: discord.Option(discord.Attachment, required=False, description="Bild"), png: discord.Option(discord.Attachment, required=False, description="Bild"), gif: discord.Option(discord.Attachment, required=False, description="Bild"), webp: discord.Option(discord.Attachment, required=False, description="Bild")):
   await ctx.defer()
   print(prompt)
+  print("Hi by ZoeyVid! ^(claude-3-opus) 15$/75$^")
   if jpeg:
     imagefile = await jpeg.read()
     message = aclient.messages.create(
@@ -472,6 +475,31 @@ async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg:
       embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
       embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
-  print("Hi by ZoeyVid! ^(claude-3-opus) 15$/75$^")
+
+
+@bot.command(description="Hi by ZoeyVid! (gflash), contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+async def gflash(ctx, prompt: discord.Option(str, description="Der Prompt")):
+  await ctx.defer()
+  print(prompt)
+  print("Hi by ZoeyVid! ^(gflash)^")
+  model = genai.GenerativeModel("gemini-1.5-flash-latest")
+  response = model.generate_content(prompt)
+  for i in range(ceil(len(response.text) / 4096)):
+    embed = discord.Embed(title="Hi by ZoeyVid! (gflash)")
+    embed.description = (response.text[(4096*i):(4096*(i+1))])
+    await ctx.respond(embed=embed)
+
+
+@bot.command(description="Hi by ZoeyVid! (gpro), contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+async def gpro(ctx, prompt: discord.Option(str, description="Der Prompt")):
+  await ctx.defer()
+  print(prompt)
+  print("Hi by ZoeyVid! ^(gpro)^")
+  model = genai.GenerativeModel("gemini-1.5-pro-latest")
+  response = model.generate_content(prompt)
+  for i in range(ceil(len(response.text) / 4096)):
+    embed = discord.Embed(title="Hi by ZoeyVid! (gpro)")
+    embed.description = (response.text[(4096*i):(4096*(i+1))])
+    await ctx.respond(embed=embed)
 
 bot.run(os.environ["BOT_KEY"])

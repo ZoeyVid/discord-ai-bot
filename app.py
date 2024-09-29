@@ -477,7 +477,7 @@ async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg:
       await ctx.respond(embed=embed)
 
 
-@bot.command(description="Hi by ZoeyVid! (gflash), contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+@bot.command(description="Hi by ZoeyVid! (gflash)", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
 async def gflash(ctx, prompt: discord.Option(str, description="Der Prompt")):
   await ctx.defer()
   print(prompt)
@@ -490,7 +490,7 @@ async def gflash(ctx, prompt: discord.Option(str, description="Der Prompt")):
     await ctx.respond(embed=embed)
 
 
-@bot.command(description="Hi by ZoeyVid! (gpro), contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+@bot.command(description="Hi by ZoeyVid! (gpro)", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
 async def gpro(ctx, prompt: discord.Option(str, description="Der Prompt")):
   await ctx.defer()
   print(prompt)

@@ -1,4 +1,4 @@
-openai==1.51.1
+openai==1.51.2
 py-cord==2.6.1
 anthropic==0.35.0
 playwright==1.47.0

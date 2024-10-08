@@ -5,7 +5,7 @@ COPY requirements.txt /tmp/requirements.txt
 ARG DEBIAN_FRONTEND=noninteractive
 RUN echo 'APT::Install-Recommends "0";' | tee -a /etc/apt/apt.conf.d/01norecommend && \
     echo 'APT::Install-Suggests "0";' | tee -a /etc/apt/apt.conf.d/01norecommend && \
-    apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y ca-certificates && \
+    apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y ca-certificates cargo && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     python3 -m venv /usr/local && \

@@ -8,4 +8,5 @@ services:
       - "TZ=Europe/Berlin"
       - "OAI_KEY="
       - "A_KEY="
+      - "G_KEY="
       - "BOT_KEY="

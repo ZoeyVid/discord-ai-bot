@@ -8,14 +8,14 @@ on:
       - develop
     paths:
       - app.py
-      - requirements.txt
       - Dockerfile
+      - requirements.txt
       - .github/workflows/docker.yml
   pull_request:
     paths:
       - app.py
-      - requirements.txt
       - Dockerfile
+      - requirements.txt
       - .github/workflows/docker.yml
   workflow_dispatch:
 jobs:

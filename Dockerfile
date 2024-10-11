@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:labs
 FROM python:3.12.7-slim-bookworm AS pip
+ENV PYTHONUNBUFFERED=1
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 COPY requirements.txt /tmp/requirements.txt
 ARG DEBIAN_FRONTEND=noninteractive

@@ -12,9 +12,12 @@ from openai import OpenAI
 from discord import default_permissions
 from playwright.async_api import async_playwright
 
-oaiclient = OpenAI(api_key=os.environ["OAI_KEY"])
-aclient = anthropic.Anthropic(api_key=os.environ["A_KEY"])
-genai.configure(api_key=os.environ["G_KEY"])
+if "OAI_KEY" in os.environ:
+  oaiclient = OpenAI(api_key=os.environ["OAI_KEY"])
+if "A_KEY" in os.environ:
+  aclient = anthropic.Anthropic(api_key=os.environ["A_KEY"])
+if "G_KEY" in os.environ:
+  genai.configure(api_key=os.environ["G_KEY"])
 
 bot = discord.Bot()
 @bot.listen(once=True)

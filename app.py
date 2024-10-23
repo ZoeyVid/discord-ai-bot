@@ -343,7 +343,7 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
   if jpeg:
     imagefile = await jpeg.read()
     message = aclient.messages.create(
-      model="claude-3-5-sonnet-20240620",
+      model="claude-3-5-sonnet-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -356,7 +356,7 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
   elif png:
     imagefile = await png.read()
     message = aclient.messages.create(
-      model="claude-3-5-sonnet-20240620",
+      model="claude-3-5-sonnet-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -369,7 +369,7 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
   elif gif:
     imagefile = await gif.read()
     message = aclient.messages.create(
-      model="claude-3-5-sonnet-20240620",
+      model="claude-3-5-sonnet-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -382,7 +382,7 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
   elif webp:
     imagefile = await webp.read()
     message = aclient.messages.create(
-      model="claude-3-5-sonnet-20240620",
+      model="claude-3-5-sonnet-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -394,7 +394,7 @@ async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), jpe
       await ctx.respond(embed=embed)
   else:
     message = aclient.messages.create(
-      model="claude-3-5-sonnet-20240620",
+      model="claude-3-5-sonnet-latest",
       max_tokens=4096,
       system="Du befolgst die dir gegebenen Anweisungen.",
       messages=[
@@ -416,7 +416,7 @@ async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg:
   if jpeg:
     imagefile = await jpeg.read()
     message = aclient.messages.create(
-      model="claude-3-opus-20240229",
+      model="claude-3-opus-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -429,7 +429,7 @@ async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg:
   elif png:
     imagefile = await png.read()
     message = aclient.messages.create(
-      model="claude-3-opus-20240229",
+      model="claude-3-opus-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -442,7 +442,7 @@ async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg:
   elif gif:
     imagefile = await gif.read()
     message = aclient.messages.create(
-      model="claude-3-opus-20240229",
+      model="claude-3-opus-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -455,7 +455,7 @@ async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg:
   elif webp:
     imagefile = await webp.read()
     message = aclient.messages.create(
-      model="claude-3-opus-20240229",
+      model="claude-3-opus-latest",
       max_tokens=4096,
       system="u befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
       messages=[
@@ -467,7 +467,7 @@ async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), jpeg:
       await ctx.respond(embed=embed)
   else:
     message = aclient.messages.create(
-      model="claude-3-opus-20240229",
+      model="claude-3-opus-latest",
       max_tokens=4096,
       system="Du befolgst die dir gegebenen Anweisungen.",
       messages=[

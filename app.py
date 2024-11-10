@@ -265,30 +265,11 @@ if "OAI_KEY" in os.environ:
 if "A_KEY" in os.environ:
   @bot.command(description="Hi by ZoeyVid! (claude-3-haiku) 0,25$/1,25$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
   @default_permissions(administrator=True)
-  async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL zum screenshoten"), image: discord.Option(discord.Attachment, required=False, description="Bild")):
+  async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt"), image: discord.Option(discord.Attachment, required=False, description="Bild")):
     await ctx.defer()
     print(prompt)
     print("Hi by ZoeyVid! ^(claude-3-haiku) 0,25$/1,25$^")
-    if url:
-      async with async_playwright() as playwright:
-        chromium = playwright.chromium
-        browser = await chromium.launch()
-        page = await browser.new_page(screen={"width": 1440, "height": 2560}, locale="de-DE", timezone_id="Europe/Berlin", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0")
-        await page.goto(url)
-        await page.emulate_media(media="screen")
-        screenshot = await page.screenshot(full_page=True)
-        message = aclient.messages.create(
-          model="claude-3-haiku-20240307",
-          max_tokens=4096,
-          system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
-          messages=[
-            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/png", "data": base64.b64encode(screenshot).decode("utf-8")}}]}]
-        )
-        for i in range(ceil(len(message.content[0].text) / 4096)):
-          embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
-          embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
-          await ctx.respond(embed=embed)
-    elif image:
+    if image:
       if mimetypes.guess_type(image.filename)[0] == "image/jpeg" or mimetypes.guess_type(image.filename)[0] == "image/png" or mimetypes.guess_type(image.filename)[0] == "image/gif" or mimetypes.guess_type(image.filename)[0] == "image/webp":
         message = aclient.messages.create(
           model="claude-3-haiku-20240307",
@@ -318,9 +299,29 @@ if "A_KEY" in os.environ:
         await ctx.respond(embed=embed)
 
 if "A_KEY" in os.environ:
+  @bot.command(description="Hi by ZoeyVid! (claude-3-5-haiku) 1$/5$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+  @default_permissions(administrator=True)
+  async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt")):
+    await ctx.defer()
+    print(prompt)
+    print("Hi by ZoeyVid! ^(claude-3-5-haiku) 1$/5$^")
+    message = aclient.messages.create(
+      model="claude-3-5-haiku-latest",
+      max_tokens=8192,
+      system="Du befolgst die dir gegebenen Anweisungen.",
+      messages=[
+        {"role": "user", "content": prompt}
+      ]
+    )
+    for i in range(ceil(len(message.content[0].text) / 4096)):
+      embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-5-haiku) 1$/5$")
+      embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
+      await ctx.respond(embed=embed)
+
+if "A_KEY" in os.environ:
   @bot.command(description="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
   @default_permissions(administrator=True)
-  async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL zum screenshoten"), image: discord.Option(discord.Attachment, required=False, description="Bild")):
+  async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL zum screenshoten"), file: discord.Option(discord.Attachment, required=False, description="Datei")):
     await ctx.defer()
     print(prompt)
     print("Hi by ZoeyVid! ^(claude-3-5-sonnet) 3$/15$^")
@@ -331,37 +332,51 @@ if "A_KEY" in os.environ:
         page = await browser.new_page(screen={"width": 1440, "height": 2560}, locale="de-DE", timezone_id="Europe/Berlin", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0")
         await page.goto(url)
         await page.emulate_media(media="screen")
-        screenshot = await page.screenshot(full_page=True)
+        pdf = await page.pdf(width="1440px", height="2560px", landscape=True)
+        await browser.close()
         message = aclient.messages.create(
           model="claude-3-5-sonnet-latest",
-          max_tokens=4096,
+          max_tokens=8192,
           system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
           messages=[
             {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/png", "data": base64.b64encode(screenshot).decode("utf-8")}}]}]
         )
         for i in range(ceil(len(message.content[0].text) / 4096)):
-          embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
+          embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-5-sonnet) 15$/75$")
           embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
           await ctx.respond(embed=embed)
-    elif image:
-      if mimetypes.guess_type(image.filename)[0] == "image/jpeg" or mimetypes.guess_type(image.filename)[0] == "image/png" or mimetypes.guess_type(image.filename)[0] == "image/gif" or mimetypes.guess_type(image.filename)[0] == "image/webp":
+    elif file:
+      if mimetypes.guess_type(file.filename)[0] == "image/jpeg" or mimetypes.guess_type(file.filename)[0] == "image/png" or mimetypes.guess_type(file.filename)[0] == "image/gif" or mimetypes.guess_type(file.filename)[0] == "image/webp":
         message = aclient.messages.create(
           model="claude-3-5-sonnet-latest",
-          max_tokens=4096,
-          system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
+          max_tokens=8192,
+          system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welches du im Anhang findest.",
           messages=[
-            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": mimetypes.guess_type(image.filename)[0], "data": base64.b64encode(await image.read()).decode("utf-8")}}]}]
+            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": mimetypes.guess_type(file.filename)[0], "data": base64.b64encode(await file.read()).decode("utf-8")}}]}]
+        )
+        for i in range(ceil(len(message.content[0].text) / 4096)):
+          embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$")
+          embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
+          await ctx.respond(embed=embed)
+      elif mimetypes.guess_type(file.filename)[0] == "application/pdf":
+        message = aclient.messages.create(
+          model="claude-3-5-sonnet-latest",
+          betas=["pdfs-2024-09-25"],
+          max_tokens=8192,
+          system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die PDF, welche du im Anhang findest.",
+          messages=[
+            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "document", "source": { "type": "base64", "media_type": "application/pdf", "data": base64.b64encode(await file.read()).decode("utf-8")}}]}]
         )
         for i in range(ceil(len(message.content[0].text) / 4096)):
           embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$")
           embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
           await ctx.respond(embed=embed)
       else:
-        await ctx.respond("Dateityp nicht unterstützt!")
+        await ctx.respond("Dateityp nicht unterstützt! (jpeg/png/gif/webp/pdf)")
     else:
       message = aclient.messages.create(
         model="claude-3-5-sonnet-latest",
-        max_tokens=4096,
+        max_tokens=8192,
         system="Du befolgst die dir gegebenen Anweisungen.",
         messages=[
           {"role": "user", "content": prompt}
@@ -369,61 +384,6 @@ if "A_KEY" in os.environ:
       )
       for i in range(ceil(len(message.content[0].text) / 4096)):
         embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$")
-        embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
-        await ctx.respond(embed=embed)
-
-if ("A_KEY") in os.environ:
-  @bot.command(description="Hi by ZoeyVid! (claude-3-opus) 15$/75$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
-  @default_permissions(administrator=True)
-  async def opus(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL zum screenshoten"), image: discord.Option(discord.Attachment, required=False, description="Bild")):
-    await ctx.defer()
-    print(prompt)
-    print("Hi by ZoeyVid! ^(claude-3-opus) 15$/75$^")
-    if url:
-      async with async_playwright() as playwright:
-        chromium = playwright.chromium
-        browser = await chromium.launch()
-        page = await browser.new_page(screen={"width": 1440, "height": 2560}, locale="de-DE", timezone_id="Europe/Berlin", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0")
-        await page.goto(url)
-        await page.emulate_media(media="screen")
-        screenshot = await page.screenshot(full_page=True)
-        message = aclient.messages.create(
-          model="claude-3-opus-latest",
-          max_tokens=4096,
-          system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
-          messages=[
-            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/png", "data": base64.b64encode(screenshot).decode("utf-8")}}]}]
-        )
-        for i in range(ceil(len(message.content[0].text) / 4096)):
-          embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
-          embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
-          await ctx.respond(embed=embed)
-    elif image:
-      if mimetypes.guess_type(image.filename)[0] == "image/jpeg" or mimetypes.guess_type(image.filename)[0] == "image/png" or mimetypes.guess_type(image.filename)[0] == "image/gif" or mimetypes.guess_type(image.filename)[0] == "image/webp":
-        message = aclient.messages.create(
-          model="claude-3-opus-latest",
-          max_tokens=4096,
-          system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
-          messages=[
-            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": mimetypes.guess_type(image.filename)[0], "data": base64.b64encode(await image.rad()).decode("utf-8")}}]}]
-        )
-        for i in range(ceil(len(message.content[0].text) / 4096)):
-          embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
-          embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
-          await ctx.respond(embed=embed)
-      else:
-        await ctx.respond("Dateityp nicht unterstützt!")
-    else:
-      message = aclient.messages.create(
-        model="claude-3-opus-latest",
-        max_tokens=4096,
-        system="Du befolgst die dir gegebenen Anweisungen.",
-        messages=[
-          {"role": "user", "content": prompt}
-        ]
-      )
-      for i in range(ceil(len(message.content[0].text) / 4096)):
-        embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-opus) 15$/75$")
         embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
         await ctx.respond(embed=embed)
 

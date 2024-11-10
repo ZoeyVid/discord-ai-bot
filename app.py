@@ -321,7 +321,7 @@ if "A_KEY" in os.environ:
 if "A_KEY" in os.environ:
   @bot.command(description="Hi by ZoeyVid! (claude-3-5-sonnet) 3$/15$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
   @default_permissions(administrator=True)
-  async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL zum screenshoten"), file: discord.Option(discord.Attachment, required=False, description="Datei")):
+  async def sonnet(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL"), file: discord.Option(discord.Attachment, required=False, description="Datei")):
     await ctx.defer()
     print(prompt)
     print("Hi by ZoeyVid! ^(claude-3-5-sonnet) 3$/15$^")
@@ -339,7 +339,7 @@ if "A_KEY" in os.environ:
           max_tokens=8192,
           system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.",
           messages=[
-            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image", "source": { "type": "base64", "media_type": "image/png", "data": base64.b64encode(screenshot).decode("utf-8")}}]}]
+            {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "document", "source": { "type": "base64", "media_type": "application/pdf", "data": base64.b64encode(pdf).decode("utf-8")}}]}]
         )
         for i in range(ceil(len(message.content[0].text) / 4096)):
           embed = discord.Embed(title="Hi by ZoeyVid! (claude-3-5-sonnet) 15$/75$")

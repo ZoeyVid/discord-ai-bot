@@ -265,7 +265,7 @@ if "OAI_KEY" in os.environ:
 if "A_KEY" in os.environ:
   @bot.command(description="Hi by ZoeyVid! (claude-3-haiku) 0,25$/1,25$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
   @default_permissions(administrator=True)
-  async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt"), image: discord.Option(discord.Attachment, required=False, description="Bild")):
+  async def haiku3(ctx, prompt: discord.Option(str, description="Der Prompt"), image: discord.Option(discord.Attachment, required=False, description="Bild")):
     await ctx.defer()
     print(prompt)
     print("Hi by ZoeyVid! ^(claude-3-haiku) 0,25$/1,25$^")
@@ -301,7 +301,7 @@ if "A_KEY" in os.environ:
 if "A_KEY" in os.environ:
   @bot.command(description="Hi by ZoeyVid! (claude-3-5-haiku) 1$/5$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
   @default_permissions(administrator=True)
-  async def haiku(ctx, prompt: discord.Option(str, description="Der Prompt")):
+  async def haiku35(ctx, prompt: discord.Option(str, description="Der Prompt")):
     await ctx.defer()
     print(prompt)
     print("Hi by ZoeyVid! ^(claude-3-5-haiku) 1$/5$^")

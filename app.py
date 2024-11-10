@@ -359,7 +359,7 @@ if "A_KEY" in os.environ:
           embed.description = (message.content[0].text[(4096*i):(4096*(i+1))])
           await ctx.respond(embed=embed)
       elif mimetypes.guess_type(file.filename)[0] == "application/pdf":
-        message = aclient.messages.create(
+        message = aclient.beta.messages.create(
           model="claude-3-5-sonnet-latest",
           betas=["pdfs-2024-09-25"],
           max_tokens=8192,

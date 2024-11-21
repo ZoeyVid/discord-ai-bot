@@ -41,7 +41,6 @@ if "OAI_KEY" in os.environ:
     message = oaiclient.chat.completions.create(
       model="o1-mini",
       messages=[
-        {"role": "system", "content": "Du befolgst die dir gegebenen Anweisungen."},
         {"role": "user", "content": prompt}
       ]
     )
@@ -60,7 +59,6 @@ if "OAI_KEY" in os.environ:
     message = oaiclient.chat.completions.create(
       model="o1-preview",
       messages=[
-        {"role": "system", "content": "Du befolgst die dir gegebenen Anweisungen."},
         {"role": "user", "content": prompt}
       ]
     )

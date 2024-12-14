@@ -31,41 +31,41 @@ async def on_ready():
     print("Bot is running!")
 
 
-if "OAI_KEY" in os.environ:
-  @bot.command(description="Hi by ZoeyVid! (o1-mini) 3$/12$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
-  @default_permissions(administrator=True)
-  async def o1mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
-    await ctx.defer()
-    print(prompt)
-    print("Hi by ZoeyVid! ^(o1-mini) 3$/12$^")
-    message = oaiclient.chat.completions.create(
-      model="o1-mini",
-      messages=[
-        {"role": "user", "content": prompt}
-      ]
-    )
-    for i in range(ceil(len(message.choices[0].message.content) / 4096)):
-      embed = discord.Embed(title="Hi by ZoeyVid! (o1-mini) 3$/12$")
-      embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
-      await ctx.respond(embed=embed)
+#if "OAI_KEY" in os.environ:
+#  @bot.command(description="Hi by ZoeyVid! (o1-mini) 3$/12$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+#  @default_permissions(administrator=True)
+#  async def o1mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
+#    await ctx.defer()
+#    print(prompt)
+#    print("Hi by ZoeyVid! ^(o1-mini) 3$/12$^")
+#    message = oaiclient.chat.completions.create(
+#      model="o1-mini",
+#      messages=[
+#        {"role": "user", "content": prompt}
+#      ]
+#    )
+#    for i in range(ceil(len(message.choices[0].message.content) / 4096)):
+#      embed = discord.Embed(title="Hi by ZoeyVid! (o1-mini) 3$/12$")
+#      embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
+#      await ctx.respond(embed=embed)
 
-if "OAI_KEY" in os.environ:
-  @bot.command(description="Hi by ZoeyVid! (o1-preview) 15$/60$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
-  @default_permissions(administrator=True)
-  async def o1preview(ctx, prompt: discord.Option(str, description="Der Prompt")):
-    await ctx.defer()
-    print(prompt)
-    print("Hi by ZoeyVid! ^(o1-preview) 15$/60$^")
-    message = oaiclient.chat.completions.create(
-      model="o1-preview",
-      messages=[
-        {"role": "user", "content": prompt}
-      ]
-    )
-    for i in range(ceil(len(message.choices[0].message.content) / 4096)):
-      embed = discord.Embed(title="Hi by ZoeyVid! (o1-preview) 15$/60$")
-      embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
-      await ctx.respond(embed=embed)
+#if "OAI_KEY" in os.environ:
+#  @bot.command(description="Hi by ZoeyVid! (o1-preview) 15$/60$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+#  @default_permissions(administrator=True)
+#  async def o1preview(ctx, prompt: discord.Option(str, description="Der Prompt")):
+#    await ctx.defer()
+#    print(prompt)
+#    print("Hi by ZoeyVid! ^(o1-preview) 15$/60$^")
+#    message = oaiclient.chat.completions.create(
+#      model="o1-preview",
+#      messages=[
+#        {"role": "user", "content": prompt}
+#      ]
+#    )
+#    for i in range(ceil(len(message.choices[0].message.content) / 4096)):
+#      embed = discord.Embed(title="Hi by ZoeyVid! (o1-preview) 15$/60$")
+#      embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
+#      await ctx.respond(embed=embed)
 
 
 if "OAI_KEY" in os.environ:
@@ -180,7 +180,7 @@ if "OAI_KEY" in os.environ:
         pdf = await page.pdf(width="1440px", height="2560px", landscape=True)
         await browser.close()
         file = oaiclient.files.create(file=("Webseite.pdf", pdf), purpose="assistants")
-        assistant = oaiclient.beta.assistants.create(model="gpt-4o", tools=[{"type": "file_search"}], instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die Webseite, welche du als PDF-Datei im Anhang findest.")
+        assistant = oaiclient.beta.assistants.create(model="gpt-4o-2024-11-20", tools=[{"type": "file_search"}], instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die Webseite, welche du als PDF-Datei im Anhang findest.")
         thread = oaiclient.beta.threads.create()
         oaiclient.beta.threads.messages.create(thread.id, role="user", content=prompt, attachments=[{"file_id": file.id, "tools": [{"type": "file_search"}]}])
         run = oaiclient.beta.threads.runs.create(thread.id, assistant_id=assistant.id)
@@ -197,7 +197,7 @@ if "OAI_KEY" in os.environ:
           await ctx.respond(embed=embed)
     elif filesearch:
       file = oaiclient.files.create(file=(filesearch.filename, await filesearch.read()), purpose="assistants")
-      assistant = oaiclient.beta.assistants.create(model="gpt-4o", tools=[{"type": "file_search"}], instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die Datei, welche du im Anhang findest.")
+      assistant = oaiclient.beta.assistants.create(model="gpt-4o-2024-11-20", tools=[{"type": "file_search"}], instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die Datei, welche du im Anhang findest.")
       thread = oaiclient.beta.threads.create()
       oaiclient.beta.threads.messages.create(thread.id, role="user", content=prompt, attachments=[{"file_id": file.id, "tools": [{"type": "file_search"}]}])
       run = oaiclient.beta.threads.runs.create(thread.id, assistant_id=assistant.id)
@@ -214,7 +214,7 @@ if "OAI_KEY" in os.environ:
         await ctx.respond(embed=embed)
     elif codeinterpreter:
       file = oaiclient.files.create(file=(codeinterpreter.filename, await codeinterpreter.read()), purpose="assistants")
-      assistant = oaiclient.beta.assistants.create(model="gpt-4o", tools=[{"type": "code_interpreter"}], instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die Datei, welche du im Anhang findest.")
+      assistant = oaiclient.beta.assistants.create(model="gpt-4o-2024-11-20", tools=[{"type": "code_interpreter"}], instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die Datei, welche du im Anhang findest.")
       thread = oaiclient.beta.threads.create()
       oaiclient.beta.threads.messages.create(thread.id, role="user", content=prompt, attachments=[{"file_id": file.id, "tools": [{"type": "code_interpreter"}]}])
       run = oaiclient.beta.threads.runs.create(thread.id, assistant_id=assistant.id)
@@ -231,7 +231,7 @@ if "OAI_KEY" in os.environ:
         await ctx.respond(embed=embed)
     elif image:
       file = oaiclient.files.create(file=(image.filename, await image.read()), purpose="assistants")
-      assistant = oaiclient.beta.assistants.create(model="gpt-4o", instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.")
+      assistant = oaiclient.beta.assistants.create(model="gpt-4o-2024-11-20", instructions="Du befolgst die dir gegebenen Anweisungen und beachtest dabei das Bild, welche du im Anhang findest.")
       thread = oaiclient.beta.threads.create()
       oaiclient.beta.threads.messages.create(thread.id, role="user", content=[{"type": "text", "text": prompt}, {"type": "image_file", "image_file": {"file_id": file.id}}])
       run = oaiclient.beta.threads.runs.create(thread.id, assistant_id=assistant.id)
@@ -248,7 +248,7 @@ if "OAI_KEY" in os.environ:
         await ctx.respond(embed=embed)
     else:
       message = oaiclient.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-2024-11-20",
         messages=[
           {"role": "system", "content": "Du befolgst die dir gegebenen Anweisungen."},
           {"role": "user", "content": prompt}
@@ -392,7 +392,7 @@ if "G_KEY" in os.environ:
     await ctx.defer()
     print(prompt)
     print("Hi by ZoeyVid! ^(gflash)^")
-    model = genai.GenerativeModel("gemini-1.5-flash-latest")
+    model = genai.GenerativeModel("gemini-2.0-flash-exp")
     if url:
       async with async_playwright() as playwright:
         chromium = playwright.chromium

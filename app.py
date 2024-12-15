@@ -420,7 +420,7 @@ if "G_KEY" in os.environ:
     else:
       response = model.generate_content(prompt)
       for i in range(ceil(len(response.text) / 4096)):
-        embed = discord.Embed(title="Hi by ZoeyVid! (gpro)")
+        embed = discord.Embed(title="Hi by ZoeyVid! (gflash)")
         embed.description = (response.text[(4096*i):(4096*(i+1))])
         await ctx.respond(embed=embed)
 

@@ -410,9 +410,8 @@ if "A_KEY" in os.environ:
         await page.emulate_media(media="screen")
         pdf = await page.pdf(width="1440px", height="2560px", landscape=True)
         await browser.close()
-        message = aclient.beta.messages.create(
+        message = aclient.messages.create(
           model="claude-3-5-sonnet-latest",
-          betas=["pdfs-2024-09-25"],
           max_tokens=8192,
           system="Du befolgst die dir gegebenen Anweisungen und beachtest dabei die Webseite, welche du als PDF-Datei im Anhang findest.",
           messages=[

@@ -32,27 +32,29 @@ async def on_ready():
 
 
 if "OAI_KEY" in os.environ:
-  @bot.command(description="Hi by ZoeyVid! (o1-mini) 3$/12$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
+  @bot.command(description="Hi by ZoeyVid! (o3-mini) 3$/12$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
   @default_permissions(administrator=True)
-  async def o1mini(ctx, prompt: discord.Option(str, description="Der Prompt")):
+  async def omini(ctx, prompt: discord.Option(str, description="Der Prompt")):
     await ctx.defer()
     print(prompt)
-    print("Hi by ZoeyVid! ^(o1-mini) 3$/12$^")
+    print("Hi by ZoeyVid! ^(o3-mini) 3$/12$^")
     message = oaiclient.chat.completions.create(
-      model="o1-mini",
+      model="o3-mini",
+      reasoning_effort="high",
       messages=[
+        {"role": "developer", "content": "Du befolgst die dir gegebenen Anweisungen."},
         {"role": "user", "content": prompt}
       ]
     )
     for i in range(ceil(len(message.choices[0].message.content) / 4096)):
-      embed = discord.Embed(title="Hi by ZoeyVid! (o1-mini) 3$/12$")
+      embed = discord.Embed(title="Hi by ZoeyVid! (o3-mini) 3$/12$")
       embed.description = (message.choices[0].message.content[(4096*i):(4096*(i+1))])
       await ctx.respond(embed=embed)
 
 if "OAI_KEY" in os.environ:
   @bot.command(description="Hi by ZoeyVid! (o1) 15$/60$", contexts={discord.InteractionContextType.guild, discord.InteractionContextType.private_channel}, integration_types={discord.IntegrationType.guild_install, discord.IntegrationType.user_install})
   @default_permissions(administrator=True)
-  async def o1(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL für file_search"), image: discord.Option(discord.Attachment, required=False, description="Bild"), filesearch: discord.Option(discord.Attachment, required=False, description="Datei für file_search"), codeinterpreter: discord.Option(discord.Attachment, required=False, description="Datei für code_interpreter")):
+  async def o(ctx, prompt: discord.Option(str, description="Der Prompt"), url: discord.Option(str, required=False, description="URL für file_search"), image: discord.Option(discord.Attachment, required=False, description="Bild"), filesearch: discord.Option(discord.Attachment, required=False, description="Datei für file_search"), codeinterpreter: discord.Option(discord.Attachment, required=False, description="Datei für code_interpreter")):
     await ctx.defer()
     print(prompt)
     print("Hi by ZoeyVid! ^(o1) 15$/60$^")
@@ -136,7 +138,7 @@ if "OAI_KEY" in os.environ:
       message = oaiclient.chat.completions.create(
         model="o1",
         messages=[
-          {"role": "system", "content": "Du befolgst die dir gegebenen Anweisungen."},
+          {"role": "developer", "content": "Du befolgst die dir gegebenen Anweisungen."},
           {"role": "user", "content": prompt}
         ]
       )
@@ -231,6 +233,7 @@ if "OAI_KEY" in os.environ:
     else:
       message = oaiclient.chat.completions.create(
         model="gpt-4o-mini",
+        reasoning_effort="high",
         messages=[
           {"role": "system", "content": "Du befolgst die dir gegebenen Anweisungen."},
           {"role": "user", "content": prompt}

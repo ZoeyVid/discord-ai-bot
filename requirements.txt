@@ -1,5 +1,5 @@
 openai
 py-cord==2.6.1
-anthropic==0.72.1
+anthropic==0.73.0
 playwright==1.56.0
 google-generativeai==0.8.5
